@@ -1,15 +1,14 @@
 "use client";
 
-import { Send } from "lucide-react";
-import { Button } from "./ui/button";
 import { Label } from "./ui/label";
 import { Textarea } from "./ui/textarea";
+import { Switch } from "./ui/switch";
 
 interface FooterProps {
   prompt: string;
   onPromptChange: (value: string) => void;
   iterativeMode: boolean;
-  onIterativeModeChange: (value: string) => void;
+  onIterativeModeChange: (value: boolean) => void;
 }
 
 export const Footer = ({
@@ -19,7 +18,11 @@ export const Footer = ({
   onIterativeModeChange,
 }: FooterProps) => {
   return (
-    <footer className="max-w-xl gap-5">
+    <footer className="max-w-xl gap-5 relative">
+      <div className="absolute -top-2 -right-1 flex items-center gap-2 text-sm">
+        consistancy mode
+        <Switch checked={iterativeMode} onCheckedChange={onIterativeModeChange} />
+      </div>
       <div className="grid w-full gap-3">
         <Label className="text-muted-foreground">Yor Prompt</Label>
         <div className="relative">
@@ -28,13 +31,10 @@ export const Footer = ({
             spellCheck={false}
             required
             rows={4}
+            value={prompt}
+            onChange={(e) => onPromptChange(e.target.value)}
             className="focus-visible:ring-offset-0 transition-colors focus-visible:ring-0 resize-none"
           />
-          <div className="absolute top-1/2 -translate-y-1/2 right-5">
-            <Button variant="outline" className="transition-colors">
-              <Send className="h-5 w-5 text-muted-foreground" />
-            </Button>
-          </div>
         </div>
       </div>
     </footer>

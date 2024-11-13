@@ -6,10 +6,10 @@ import { Input } from "./ui/input";
 
 interface NavbarProps {
   apiKey: string;
-  onAPIChange: (apiKey: string) => void;
+  onAPIKeyChange: (apiKey: string) => void;
 }
 
-export const Navbar = ({ apiKey, onApiKeyChange }: NavbarProps) => {
+export const Navbar = ({ apiKey, onAPIKeyChange }: NavbarProps) => {
   return (
     <header className="sticky top-0 z-50 w-ful dark:bg-background/95 border-b dark:border-border border-border/40 supports-[backdrop-filter]:bg-background/60 ">
       <nav className="px-4 h-14 items-center flex">
@@ -54,6 +54,9 @@ export const Navbar = ({ apiKey, onApiKeyChange }: NavbarProps) => {
         <Input
           className="w-64 px-4 py-2 h-8 border border-input transition-colors focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 disabled:opacity-50 bg-muted/50 font-normal text-muted-foreground shadow-none text-sm placeholder:hover:text-accent-foreground hover:bg-accent md:mr-0 mr-2"
           placeholder="Enter your api key"
+          type="password"
+          value={apiKey}
+          onChange={(e) => onAPIKeyChange(e.target.value)}
         />
         <div className="flex flex-1 items-center justify-between gap-2 md:justify-end">
           <div className="flex items-center gap-0.5">
