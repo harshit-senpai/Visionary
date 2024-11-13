@@ -5,7 +5,19 @@ import { Button } from "./ui/button";
 import { Label } from "./ui/label";
 import { Textarea } from "./ui/textarea";
 
-export const Footer = () => {
+interface FooterProps {
+  prompt: string;
+  onPromptChange: (value: string) => void;
+  iterativeMode: boolean;
+  onIterativeModeChange: (value: string) => void;
+}
+
+export const Footer = ({
+  prompt,
+  onPromptChange,
+  iterativeMode,
+  onIterativeModeChange,
+}: FooterProps) => {
   return (
     <footer className="max-w-xl gap-5">
       <div className="grid w-full gap-3">
@@ -13,6 +25,9 @@ export const Footer = () => {
         <div className="relative">
           <Textarea
             placeholder="Describe your image..."
+            spellCheck={false}
+            required
+            rows={4}
             className="focus-visible:ring-offset-0 transition-colors focus-visible:ring-0 resize-none"
           />
           <div className="absolute top-1/2 -translate-y-1/2 right-5">

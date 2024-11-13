@@ -4,7 +4,12 @@ import { ModeToggle } from "./ModeToggle";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 
-export const Navbar = () => {
+interface NavbarProps {
+  apiKey: string;
+  onAPIChange: (apiKey: string) => void;
+}
+
+export const Navbar = ({ apiKey, onApiKeyChange }: NavbarProps) => {
   return (
     <header className="sticky top-0 z-50 w-ful dark:bg-background/95 border-b dark:border-border border-border/40 supports-[backdrop-filter]:bg-background/60 ">
       <nav className="px-4 h-14 items-center flex">
