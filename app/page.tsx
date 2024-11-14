@@ -5,6 +5,7 @@ import { Navbar } from "@/components/Navbar";
 import { ImageResponse } from "@/type";
 import { useQuery } from "@tanstack/react-query";
 import { useDebounce } from "@uidotdev/usehooks";
+import { Loader2 } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
@@ -17,7 +18,7 @@ export default function Home() {
     { prompt: string; image: ImageResponse }[]
   >([]);
 
-  const debouncedPrompt = useDebounce(prompt, 500);
+  const debouncedPrompt = useDebounce(prompt, 3000);
 
   const { data: image, isFetching } = useQuery({
     queryKey: [debouncedPrompt],
@@ -55,8 +56,18 @@ export default function Home() {
     <main className="h-full dark:bg-background bg-background">
       <Navbar apiKey={userAPIKey} onAPIKeyChange={setUserAPIKey} />
       <section className="mx-auto px-4 lg:px-8 py-5 max-w-2xl flex flex-col md:h-[90vh] h-[85vh] justify-end">
-        <div className="flex-1 flex px-4 flex-col py-4 overflow-y-auto w-full h-full">
-          {activeImage ? (
+        <div className="flex-1 flex px-4 flex-col py-4 w-full h-full overflow-y-auto scrollbar-thin ">
+          {isFetching && (
+            <div className="flex flex-col items-center justify-center mb-4">
+              <div className="flex gap-4">
+                <p className="text-sm font-semibold text-muted-foreground">
+                  Generating
+                </p>
+                <Loader2 className="h-4 w-4 ml-2 animate-spin" />
+              </div>
+            </div>
+          )}
+          {activeImage && (
             <div className="flex flex-col items-center">
               <Image
                 height={768}
@@ -65,7 +76,7 @@ export default function Home() {
                 alt=""
                 className={`${isFetching} ? "animate-pulse" : "max-w-full rounded-lg"`}
               />
-              <div className="mt-4 flex gap-4 overflow-x-auto pb-4">
+              <div className="mt-4 flex gap-4 pb-4 overflow-x-auto scrollbar-thin">
                 {generations.map((gen, i) => (
                   <button
                     key={i}
@@ -83,7 +94,8 @@ export default function Home() {
                 ))}
               </div>
             </div>
-          ) : (
+          )}{" "}
+          {!activeImage && !isFetching && (
             <>
               <div className="text-center">
                 <h2 className="text-2xl font-bold">

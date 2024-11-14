@@ -21,7 +21,10 @@ export const Footer = ({
     <footer className="max-w-xl gap-5 relative">
       <div className="absolute -top-2 -right-1 flex items-center gap-2 text-sm">
         consistancy mode
-        <Switch checked={iterativeMode} onCheckedChange={onIterativeModeChange} />
+        <Switch
+          checked={iterativeMode}
+          onCheckedChange={onIterativeModeChange}
+        />
       </div>
       <div className="grid w-full gap-3">
         <Label className="text-muted-foreground">Yor Prompt</Label>

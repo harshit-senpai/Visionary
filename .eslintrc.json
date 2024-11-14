@@ -4,7 +4,8 @@
     "react/react-in-jsx-scope": "off",
     "prefer-const": "off",
     "no-unused-vars": "off",
-    "ban-ts-comment": "off"
-
+    "ban-ts-comment": "off",
+    "no-non-null-asserted-optional-chain": "off",
+    "no-explicit-any": "off"
   }
 }
