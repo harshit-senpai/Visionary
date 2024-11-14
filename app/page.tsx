@@ -2,10 +2,11 @@
 
 import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/Navbar";
+import { Button } from "@/components/ui/button";
 import { ImageResponse } from "@/type";
 import { useQuery } from "@tanstack/react-query";
 import { useDebounce } from "@uidotdev/usehooks";
-import { Loader2 } from "lucide-react";
+import { Download, Loader2 } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
@@ -19,6 +20,15 @@ export default function Home() {
   >([]);
 
   const debouncedPrompt = useDebounce(prompt, 3000);
+
+  const handleDownload = (b64Data: string, index: number) => {
+    const link = document.createElement("a");
+    link.href = `data:image/png;base64,${b64Data}`;
+    link.download = `generated-image-${index}.png`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   const { data: image, isFetching } = useQuery({
     queryKey: [debouncedPrompt],
@@ -69,13 +79,21 @@ export default function Home() {
           )}
           {activeImage && (
             <div className="flex flex-col items-center">
-              <Image
-                height={768}
-                width={1024}
-                src={`data:image/png;base64,${activeImage.b64_json}`}
-                alt=""
-                className={`${isFetching} ? "animate-pulse" : "max-w-full rounded-lg"`}
-              />
+              <div className="relative group">
+                <Image
+                  height={768}
+                  width={1024}
+                  src={`data:image/png;base64,${activeImage.b64_json}`}
+                  alt=""
+                  className={`${isFetching} ? "animate-pulse" : "max-w-full rounded-lg"`}
+                />
+                <Button
+                  className="absolute top-2 right-2 hover:bg-white/10"
+                  onClick={() => handleDownload(activeImage.b64_json, activeIndex!)}
+                >
+                  <Download className="h-5 w-5 text-black" />
+                </Button>
+              </div>
               <div className="mt-4 flex gap-4 pb-4 overflow-x-auto scrollbar-thin">
                 {generations.map((gen, i) => (
                   <button
